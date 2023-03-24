@@ -64,8 +64,8 @@ public class MovieController {
         return ans;
     }
     @DeleteMapping("/delete-all-directors")
-    public String deleteDirectorByName(){
-        String ans = movieService.deleteDirectorByName();
+    public String deleteAllDirectors(){
+        String ans = movieService.deleteAllDirectors();
         return ans;
     }
 }

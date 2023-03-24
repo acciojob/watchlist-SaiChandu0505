@@ -57,7 +57,7 @@ MovieRepository movieRepository = new MovieRepository();
         return ans;
     }
 
-    public String deleteDirectorByName(){
+    public String deleteAllDirectors(){
         String ans = movieRepository.deleteAllDirectors();
         return ans;
     }
