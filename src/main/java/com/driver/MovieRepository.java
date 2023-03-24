@@ -12,14 +12,14 @@ public class MovieRepository {
 
     public String addMovie(Movie movie){
 
-        String key = movie.getName();
-        moviedbs.put(key,movie);
+        String name = movie.getName();
+        moviedbs.put(name,movie);
         return "Movie added successfully";
     }
     public String addDirector(Director director){
 
-        String key = Director.getName();
-        directordbs.put(key,director);
+        String name = director.getName();
+        directordbs.put(name,director);
         return "Director added successfully";
     }
 
