@@ -25,24 +25,24 @@ public class MovieController {
         return ans;
     }
     @PutMapping("/add-movie-director-pair")
-    public String addMoviedirectorPair(@RequestParam("movieName") String movieName, @RequestParam("directorName") String directorName){
+    public String addMovieDirectorPair(@RequestParam("movieName") String movieName, @RequestParam("directorName") String directorName){
 
-        String ans = movieService.addMoviedirectorPair(movieName, directorName);
+        String ans = movieService.addMovieDirectorPair(movieName, directorName);
 
         return ans;
     }
     @GetMapping("/get-movie-by-name")
-    public String getMovieByName(@PathVariable("name") String name){
+    public Movie getMovieByName(@PathVariable("name") String name){
 
-        String ans = movieService.getMovieByName(name);
+        Movie ans = movieService.getMovieByName(name);
 
         return ans;
     }
 
     @GetMapping("/get-director-by-name")
-    public String getDirectorByName(@RequestParam("directorName")String directorName){
+    public Director getDirectorByName(@RequestParam("directorName")String directorName){
 
-        String ans = movieService.getDirectorByName(directorName);
+        Director ans = movieService.getDirectorByName(directorName);
         return ans;
     }
 
