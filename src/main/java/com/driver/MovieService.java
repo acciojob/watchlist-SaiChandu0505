@@ -1,28 +1,28 @@
 package com.driver;
 
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 import com.driver.Director;
 import com.driver.Movie;
 import com.driver.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class MovieService {
 
     //check if movie already exist in List other wise add it in to List
-    public MovieRepository mr = new MovieRepository();
-    public  void addMovie(Movie movie) {
-        mr.addMovie(movie);
-    }
-    public  void addDirector(Director director) {
-        mr.addDirector(director);
-    }
-    public void addPair(String movieName,String dirName){
+    @Autowired
+    MovieRepository mr;
+    public  String addMovie(Movie movie) {
 
-        mr.addPair(mr.getMovieByName(movieName),mr.getDirectorByName(dirName));
+        return mr.addMovie(movie);
+    }
+    public  String addDirector(Director director) {
+        return  mr.addDirector(director);
+    }
+    public String addPair(String movieName,String dirName){
+
+        return mr.addPair(movieName,dirName);
     }
     public Movie getMovieByName(String name){
         return mr.getMovieByName(name);
@@ -32,16 +32,17 @@ public class MovieService {
     }
     public List<String> getMoviesByDirectorName(String name){
         Director director = mr.getDirectorByName(name);
+        System.out.println(director.getName());
         return mr.getListByDir(director);
     }
     public List<Movie> findAllMovies(){
         return mr.getListMovieList();
     }
-    public void deleteDirectorByName(String name){
+    public String deleteDirectorByName(String name){
         Director d = mr.getDirectorByName(name);
-        mr.deleteDirector(d);
+        return mr.deleteDirector(d);
     }
-    public void deleteAll(){
-        mr.deleteAll();
+    public String deleteAll(){
+        return mr.deleteAll();
     }
 }

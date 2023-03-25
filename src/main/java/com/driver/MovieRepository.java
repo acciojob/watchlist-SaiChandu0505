@@ -3,66 +3,86 @@ package com.driver;
 
 import com.driver.Director;
 import com.driver.Movie;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+@Repository
 public class MovieRepository {
-    private HashMap<Director,List<Movie>> hm = new HashMap<>();
-    private List<Movie> listMovie = new ArrayList<>();//list of Movies
-    private List<Director> listDirector = new ArrayList<>();//list of Doctor
+    private HashMap<Director,List<Movie>> hm;
+    private HashMap<String,Movie> movieDb;
+    private HashMap<String,Director> directorDb;
+
+    public MovieRepository() {
+        this.hm = new HashMap<Director,List<Movie>>();
+        this.movieDb = new HashMap<String,Movie>();
+        this.directorDb = new HashMap<String,Director>();
+    }
 
     public List<Movie> getListMovieList(){
-        return listMovie;
+        return new ArrayList<>(movieDb.values());
     }
-    public List<Director> getListDirector(){
-        return listDirector;
+
+    public String addMovie(Movie m){
+        String key = m.getName();
+        movieDb.put(key,m);
+        return "added movie";
     }
-    public void addMovie(Movie m){
-        listMovie.add(m);
-    }
-    public void addDirector(Director director){
-        listDirector.add(director);
+    public String addDirector(Director director){
+        String key = director.getName();
+        directorDb.put(key,director);
+        return "added dir";
     }
     public Director getDirectorByName(String name){
-        for(Director d : listDirector){
-            if(d.getName().equals(name))
-                return d;
+        if(directorDb.containsKey(name)){
+            return directorDb.get(name);
         }
         return null;
     }
     public Movie getMovieByName(String name){
-        for(Movie m : listMovie){
-            if(m.getName().equals(name))
-                return m;
+        if(movieDb.containsKey(name)){
+            return movieDb.get(name);
         }
         return null;
     }
-    public void addPair(Movie m,Director d){
-        if(hm.containsKey(d)) {
-            List<Movie> movies = hm.get(d);
-            movies.add(m);
-            hm.put(d,movies);
+    public String addPair(String movieName,String directorName){
+        if(directorDb.containsKey(directorName) && movieDb.containsKey(movieName)) {
+            List<Movie> movieList = new ArrayList<>();
+            Director director = getDirectorByName(directorName);
+            Movie movie = getMovieByName(movieName);
+            if(hm.containsKey(director)){
+                movieList = hm.get(director);
+            }
+            movieList.add(movie);
+            hm.put(director,movieList);
         }
-        else {
-            List<Movie> movieList= new ArrayList<>();
-            movieList.add(m);
-            hm.put(d,movieList);
-        }
+        return "Mapped Successfully";
     }
     public List<String> getListByDir(Director d){
         List<Movie> movieList = hm.get(d);
         List<String> list  = new ArrayList<>();
         for(Movie m: movieList ){
+            System.out.println(m.getName());
             list.add(m.getName());
         }
         return list;
     }
-    public void deleteDirector(Director director){
+    public String deleteDirector(Director director){
+        List<Movie> movies = hm.get(director);
+        for(Movie m : movies){
+            movieDb.remove(m.getName());
+        }
         hm.remove(director);
+        directorDb.remove(director.getName());
+        return "Directed deleted";
     }
-    public void deleteAll(){
+    public String deleteAll(){
+        for(Director d : hm.keySet()) {
+            deleteDirector(d);
+        }
         hm.clear();
+        directorDb.clear();
+        return "All Director deleted";
     }
 }
